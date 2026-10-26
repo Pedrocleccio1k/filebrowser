@@ -19,6 +19,15 @@
       />
     </div>
     <title v-if="!showSearch" class="topTitle">{{ getTopTitle }}</title>
+    <!-- EARTHROPY: quick New folder / Upload buttons (Figma top bar) -->
+    <div v-if="showEarthropyActions" class="earthropy-header-actions">
+      <button type="button" class="earthropy-pill" @click="earthropyNewFolder">
+        {{ $t("files.newFolder") }}
+      </button>
+      <button type="button" class="earthropy-pill earthropy-pill--primary" @click="earthropyUpload">
+        {{ $t("general.upload") }}
+      </button>
+    </div>
     <action
       v-if="showHeaderSwitchView && !disableNavButtons"
       class="menu-button"
@@ -87,6 +96,10 @@ export default {
     },
     isAdvancedSearchRoute() {
       return (state.route?.path || "") === "/tools/advancedSearch";
+    },
+    showEarthropyActions() {
+      if (!this.isListingView || getters.isShare() || getters.isMobile()) return false;
+      return !!getters.sourcePermissions().create;
     },
     showHeaderSwitchView() {
       return this.isListingView || this.isAdvancedSearchRoute;
@@ -195,6 +208,17 @@ export default {
         return 2;
       }
       return 1;
+    },
+    earthropyNewFolder() {
+      mutations.closeHovers();
+      mutations.showPrompt({ name: "newDir", props: { base: null } });
+    },
+    earthropyUpload() {
+      mutations.closeHovers();
+      mutations.showPrompt({
+        name: "upload",
+        props: { targetPath: state.req.path, targetSource: state.req.source },
+      });
     },
     switchView() {
       mutations.closeHovers();

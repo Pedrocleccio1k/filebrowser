@@ -1,5 +1,10 @@
 <template>
-  <div :class="{ 'sidebar-overlay': floatingSidebar }" @dragover.prevent @drop.prevent>
+  <div
+    :class="{ 'sidebar-overlay': floatingSidebar, 'earthropy-docked': moveWithSidebar.shouldMove }"
+    :style="earthropyLayoutVars"
+    @dragover.prevent
+    @drop.prevent
+  >
     <transition name="overlay-fade">
       <div v-show="showOverlay" @contextmenu.prevent="resetItems" @click="resetItems" class="overlay"></div>
     </transition>
@@ -110,6 +115,10 @@ export default {
     },
     isLoggedIn() {
       return getters.isLoggedIn();
+    },
+    // EARTHROPY: lets the top bar sit beside the docked sidebar (Figma layout)
+    earthropyLayoutVars() {
+      return { "--earthropy-sidebar-offset": this.moveWithSidebar.shouldMove ? `${state.sidebar.width}em` : "0em" };
     },
     moveWithSidebar() {
       const shouldMove = getters.isSidebarVisible() && getters.isStickySidebar();

@@ -20,6 +20,7 @@
       <button type="button" @click="installPwa">{{ $t("pwa.install") }}</button>
       <i @click="dismissPwaInstall" role="button" tabindex="0" aria-label="close-banner" class="material-symbols">close</i>
     </div>
+    <EarthropyBrand />
     <SidebarSettings v-if="isSettings"></SidebarSettings>
     <SidebarGeneral v-if="!isSettings"></SidebarGeneral>
     <div class="buffer"></div>
@@ -53,10 +54,12 @@ import { getters, mutations, state } from "@/store"; // Import your custom store
 import { installAvailable, promptInstall } from "@/utils/pwaInstall";
 import SidebarGeneral from "./General.vue";
 import SidebarSettings from "./Settings.vue";
+import EarthropyBrand from "./EarthropyBrand.vue";
 
 export default {
   name: "sidebar",
   components: {
+    EarthropyBrand,
     SidebarGeneral,
     SidebarSettings,
   },

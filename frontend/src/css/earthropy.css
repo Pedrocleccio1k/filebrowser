@@ -1,0 +1,765 @@
+/*
+ * EARTHROPY skin for A Drive (FileBrowser Quantum)
+ * Visual layer taken from the EARTHROPY Figma file (page "Apps" → "A Drive").
+ * Kept in one file so the original FileBrowser components stay untouched and
+ * upstream updates merge cleanly. Imported last from styles.css.
+ */
+
+/* ---------- Fonts (bundled, no Google Fonts at runtime) ---------- */
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("./earthropy/fonts/space-grotesk-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("./earthropy/fonts/space-grotesk-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Orbitron";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url("./earthropy/fonts/orbitron-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+/* ---------- Tokens: light (Figma) ---------- */
+html:root {
+  --earthropy-ink: #0b1b3f;
+  --earthropy-ink-80: rgb(11 27 63 / 0.8);
+  --earthropy-ink-60: rgb(11 27 63 / 0.6);
+  --earthropy-ink-50: rgb(11 27 63 / 0.5);
+  --earthropy-ink-08: rgb(11 27 63 / 0.06);
+  --earthropy-glass: rgb(255 255 255 / 0.55);
+  --earthropy-glass-strong: rgb(255 255 255 / 0.85);
+  --earthropy-glass-border: rgb(255 255 255 / 0.8);
+  --earthropy-row: rgb(255 255 255 / 0.45);
+  --earthropy-shadow: 0 12px 32px rgb(13 38 102 / 0.1);
+  --earthropy-wordmark-filter: none;
+  --earthropy-accent-from: #4f7cff;
+  --earthropy-accent-to: #b14cff;
+  --earthropy-accent: linear-gradient(90deg, var(--earthropy-accent-from), var(--earthropy-accent-to));
+  --earthropy-sky:
+    radial-gradient(60rem 30rem at 85% 8%, rgb(120 170 255 / 0.35), transparent 70%),
+    radial-gradient(50rem 28rem at 10% 45%, rgb(150 190 255 / 0.3), transparent 70%),
+    radial-gradient(60rem 30rem at 70% 85%, rgb(170 200 255 / 0.35), transparent 70%),
+    linear-gradient(180deg, #eef5ff 0%, #dceaff 45%, #e8f1ff 100%);
+
+  /* FileBrowser variables follow the EARTHROPY tokens */
+  --background: #e8f1ff;
+  --alt-background: var(--earthropy-glass);
+  --surfacePrimary: var(--earthropy-glass);
+  --surfaceSecondary: rgb(255 255 255 / 0.75);
+  --textPrimary: var(--earthropy-ink);
+  --textSecondary: var(--earthropy-ink-60);
+  --divider: rgb(11 27 63 / 0.1);
+  --iconBackground: rgb(255 255 255 / 0.7);
+  --primaryColor: #4f7cff;
+  --blue: #4f7cff;
+  --dark-blue: #3f68e6;
+  --borderRadius: 16px;
+  --borderWidth: 1px;
+  --panel-bg: var(--earthropy-glass);
+  --panel-blur: none; /* blur over the soft sky is barely visible and costs a lot to render */
+  --surfaceElevationShadow: var(--earthropy-shadow);
+  --hoverOverlay: rgb(79 124 255 / 0.08);
+}
+
+/* ---------- Tokens: dark ---------- */
+html:root.dark-mode,
+.dark-mode {
+  --earthropy-ink: #eef3ff;
+  --earthropy-ink-80: rgb(238 243 255 / 0.85);
+  --earthropy-ink-60: rgb(238 243 255 / 0.66);
+  --earthropy-ink-50: rgb(238 243 255 / 0.55);
+  --earthropy-ink-08: rgb(255 255 255 / 0.06);
+  --earthropy-glass: rgb(255 255 255 / 0.06);
+  --earthropy-glass-strong: rgb(18 26 52 / 0.94);
+  --earthropy-glass-border: rgb(255 255 255 / 0.12);
+  --earthropy-row: rgb(255 255 255 / 0.04);
+  --earthropy-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+  --earthropy-wordmark-filter: brightness(0) invert(0.95);
+  --earthropy-sky:
+    radial-gradient(60rem 30rem at 85% 8%, rgb(79 124 255 / 0.22), transparent 70%),
+    radial-gradient(50rem 28rem at 10% 45%, rgb(177 76 255 / 0.14), transparent 70%),
+    radial-gradient(60rem 30rem at 70% 85%, rgb(25 211 197 / 0.1), transparent 70%),
+    linear-gradient(180deg, #070c1d 0%, #0b1433 50%, #080e22 100%);
+
+  --background: #070c1d;
+  --alt-background: var(--earthropy-glass);
+  --surfacePrimary: var(--earthropy-glass);
+  --surfaceSecondary: rgb(255 255 255 / 0.1);
+  --textPrimary: var(--earthropy-ink);
+  --textSecondary: var(--earthropy-ink-60);
+  --divider: rgb(255 255 255 / 0.1);
+  --iconBackground: rgb(255 255 255 / 0.08);
+  --activeWhiteIcon: white;
+  --hoverOverlay: rgb(255 255 255 / 0.08);
+}
+
+/* ---------- Base ---------- */
+html,
+body {
+  font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  color: var(--earthropy-ink);
+}
+
+html:root {
+  background: var(--earthropy-sky);
+  background-attachment: scroll;
+}
+
+body,
+#app,
+#main {
+  background: transparent !important;
+}
+
+/* ---------- Top bar (Figma: search pill + round buttons) ---------- */
+header.flexbar {
+  background: transparent;
+  box-shadow: none;
+}
+
+header .search-bar-container,
+#search .search-bar-container,
+#search #input {
+  border-radius: 999px !important;
+  background: var(--earthropy-glass) !important;
+  border: 1px solid var(--earthropy-glass-border) !important;
+  box-shadow: var(--earthropy-shadow);
+  color: var(--earthropy-ink-60);
+}
+
+header .search-bar-container input,
+header .search-bar-container i {
+  color: var(--earthropy-ink-60);
+  background: transparent;
+}
+
+header .action {
+  border-radius: 999px;
+}
+
+header .action:not(.nav-toggle-button) {
+  background: var(--earthropy-glass);
+  border: 1px solid var(--earthropy-glass-border);
+  box-shadow: var(--earthropy-shadow);
+}
+
+/* ---------- Sidebar (Figma: one glass panel) ---------- */
+#sidebar {
+  background: var(--earthropy-glass);
+  border: 1px solid var(--earthropy-glass-border);
+  border-radius: 22px;
+  box-shadow: var(--earthropy-shadow);
+  padding: 6px 4px 12px;
+  height: calc(100% - var(--header-height) - 12px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+#sidebar .card,
+#sidebar .sidebar-links {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  margin-bottom: 0.25rem;
+}
+
+#sidebar .card-wrapper,
+#sidebar .inner-card {
+  background: transparent;
+}
+
+/* user card + quick toggles: quieter, like the Figma footer */
+#sidebar .quick-toggles .clickable {
+  background: var(--earthropy-ink-08);
+  color: var(--earthropy-ink-80);
+}
+
+#sidebar .quick-toggles .clickable.active {
+  background: var(--earthropy-accent);
+  color: #fff;
+}
+
+#sidebar .file-actions {
+  border-radius: 999px;
+  background: var(--earthropy-accent);
+  color: #fff;
+  box-shadow: 0 8px 18px rgb(79 124 255 / 0.35);
+}
+
+#sidebar .sidebar-link-button,
+#sidebar .source-button {
+  border-radius: 12px;
+  color: var(--earthropy-ink);
+}
+
+#sidebar .sidebar-link-button:hover,
+#sidebar .source-button:hover {
+  background: var(--earthropy-ink-08);
+}
+
+#sidebar .vue-simple-progress {
+  border-radius: 999px;
+  background: var(--earthropy-ink-08) !important;
+  border: none !important;
+  overflow: hidden;
+}
+
+#sidebar .vue-simple-progress-bar:not(.vue-simple-progress-bar-background) {
+  background: var(--earthropy-accent) !important;
+  border-radius: 999px;
+}
+
+#sidebar .credits {
+  color: var(--earthropy-ink-60);
+}
+
+/* EARTHROPY brand block at the top of the sidebar */
+.earthropy-brand {
+  padding: 14px 16px 10px;
+}
+
+.earthropy-brand__wordmark {
+  display: block;
+  height: 22px;
+  width: auto;
+  filter: var(--earthropy-wordmark-filter);
+}
+
+.earthropy-brand__app {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.earthropy-brand__icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #1b6bff, #19d3c5);
+  box-shadow: 0 8px 18px rgb(27 107 255 / 0.35);
+  color: #fff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.earthropy-brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.earthropy-brand__name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--earthropy-ink);
+}
+
+.earthropy-brand__tagline {
+  font-size: 11px;
+  color: var(--earthropy-ink-50);
+}
+
+/* ---------- Breadcrumbs (Figma: "My files › Photos › 2026") ---------- */
+#breadcrumbs a,
+#breadcrumbs .breadcrumb-text {
+  color: var(--earthropy-ink);
+  font-weight: 600;
+}
+
+#breadcrumbs ul li {
+  background: transparent !important;
+}
+
+/* ---------- Column header (Figma: files table header) ---------- */
+.listing-item-header.card {
+  background: var(--earthropy-glass);
+  border: 1px solid var(--earthropy-glass-border);
+  border-radius: 16px;
+  box-shadow: var(--earthropy-shadow);
+  color: var(--earthropy-ink-60);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* Section labels "Folders" / "Files" */
+.listing-items h2 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--earthropy-ink-60);
+}
+
+/* ---------- Items ---------- */
+.listing-item {
+  color: var(--earthropy-ink);
+}
+
+/* Folder cards (Figma "Folder / …": glass card, icon on top-left) */
+/* no per-item blur: with many files it would make scrolling slow */
+.listing-items:not(.list, .compact) .listing-item {
+  background: var(--earthropy-glass);
+  border: 1px solid var(--earthropy-glass-border) !important;
+  border-radius: 18px;
+  box-shadow: var(--earthropy-shadow);
+}
+
+.listing-items .listing-item:hover {
+  background: color-mix(in srgb, var(--earthropy-glass) 70%, rgb(79 124 255 / 0.18));
+}
+
+.listing-items .listing-item[aria-selected="true"] {
+  background: color-mix(in srgb, var(--earthropy-glass) 50%, rgb(79 124 255 / 0.3)) !important;
+  border-color: rgb(79 124 255 / 0.6) !important;
+}
+
+.listing-items .listing-item .size,
+.listing-items .listing-item .modified {
+  color: var(--earthropy-ink-60);
+}
+
+.listing-items .listing-item .name {
+  font-weight: 600;
+}
+
+/* Folder icon tile: soft gradient chip like the Figma folder icon */
+.listing-items .folder-items .image-preview i,
+.listing-items .listing-item[data-type="directory"] .image-preview i {
+  background: linear-gradient(135deg, #4f7cff, #19d3c5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+/* Normal view = Figma: folders as cards, files as one glass table
+   (columns: name · modified · size) */
+.listing-items.normal .file-items {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin: 0.5em;
+  padding: 6px;
+  background: var(--earthropy-glass);
+  border: 1px solid var(--earthropy-glass-border);
+  border-radius: 18px;
+  box-shadow: var(--earthropy-shadow);
+}
+
+.listing-items.normal .file-items .listing-item {
+  width: 100% !important;
+  height: 46px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: none !important;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none !important;
+  backdrop-filter: none;
+  --icon-size: 28px;
+  --icon-font-size: 22px;
+}
+
+.listing-items.normal .file-items .listing-item.zebra-row {
+  background: var(--earthropy-ink-08);
+}
+
+.listing-items.normal .file-items .listing-item .text {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 170px;
+  align-items: center;
+  column-gap: 12px;
+  padding-left: 12px;
+}
+
+/* same column order as the header row: name · size · last modified */
+.listing-items.normal .file-items .listing-item .text .size { text-align: right; }
+.listing-items.normal .file-items .listing-item .text .modified { text-align: right; }
+
+.listing-items.normal .file-items .listing-item .image-preview,
+.listing-items.normal .file-items .listing-item .image-preview img {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 8px;
+}
+
+/* Folder cards a little taller, like the Figma folder tiles */
+.listing-items.normal .folder-items .listing-item {
+  min-height: 84px;
+}
+
+/* List / compact views: one glass table */
+.listing-items.list .listing-item,
+.listing-items.compact .listing-item {
+  background: var(--earthropy-row);
+  border-left: none;
+  border-right: none;
+  border-color: var(--divider);
+}
+
+.listing-items.list .listing-item.zebra-row,
+.listing-items.compact .listing-item.zebra-row {
+  background: var(--earthropy-ink-08);
+}
+
+/* ---------- Generic surfaces: prompts, menus, cards ---------- */
+.card,
+.prompt,
+#context-menu,
+.floating-window {
+  background: var(--earthropy-glass-strong);
+  border: 1px solid var(--earthropy-glass-border);
+  border-radius: 18px;
+  box-shadow: var(--earthropy-shadow);
+  color: var(--earthropy-ink);
+}
+
+/* Primary buttons: accent gradient */
+.button:not(.button--flat):not(.action),
+input[type="submit"] {
+  border-radius: 999px;
+}
+
+.button.button--blue,
+.button--flat.button--blue,
+button[type="submit"],
+.login input[type="submit"] {
+  background: var(--earthropy-accent) !important;
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 8px 18px rgb(79 124 255 / 0.35);
+}
+
+input.input,
+.input,
+textarea.input,
+select.input {
+  border-radius: 12px;
+  border: 1px solid var(--earthropy-glass-border);
+  background: rgb(255 255 255 / 0.6);
+  color: var(--earthropy-ink);
+}
+
+.dark-mode input.input,
+.dark-mode .input,
+.dark-mode textarea.input,
+.dark-mode select.input {
+  background: rgb(255 255 255 / 0.08);
+}
+
+/* ---------- Status bar ---------- */
+#status-bar {
+  background: transparent !important;
+  color: var(--earthropy-ink-60);
+  border: none !important;
+}
+
+/* =====================================================================
+ * Figma layout ("A Drive" screen): full-height sidebar on the left,
+ * top bar and content to its right.
+ * ===================================================================== */
+
+/* Sidebar runs from the top of the window when it is docked */
+.earthropy-docked #sidebar {
+  top: 12px;
+  height: calc(100% - 24px);
+}
+
+/* Top bar sits beside the docked sidebar */
+.earthropy-docked header.flexbar {
+  left: var(--earthropy-sidebar-offset);
+  width: calc(100% - var(--earthropy-sidebar-offset));
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.earthropy-docked header.flexbar .nav-toggle-button {
+  display: none;
+}
+
+/* Search pill on the left (Figma: 380px wide) */
+header .search-bar-container {
+  max-width: 380px;
+  margin: 0 !important;
+  height: 42px;
+}
+
+header.flexbar .search-bar-container {
+  flex: 1 1 380px;
+}
+
+header .topTitle {
+  text-align: left;
+}
+
+/* New folder / Upload pills */
+.earthropy-header-actions {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.earthropy-pill {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--earthropy-glass-border);
+  background: var(--earthropy-glass);
+  box-shadow: var(--earthropy-shadow);
+  color: var(--earthropy-ink);
+  font: 500 14px "Space Grotesk", system-ui, sans-serif;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.earthropy-pill:hover {
+  transform: translateY(-1px);
+}
+
+.earthropy-pill--primary {
+  border: none;
+  background: linear-gradient(90deg, #1b6bff, #19d3c5);
+  color: #fff;
+  box-shadow: 0 8px 18px rgb(27 107 255 / 0.35);
+}
+
+/* view switch button sits at the far right; right after the pills when they show */
+header.flexbar .menu-button,
+header.flexbar .overflow-menu-button {
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+header.flexbar .earthropy-header-actions + .menu-button,
+header.flexbar .earthropy-header-actions + .overflow-menu-button {
+  margin-left: 0;
+}
+
+/* ---------- Sidebar order: brand, navigation, (space), user + toggles, credits ---------- */
+#sidebar > .earthropy-brand { order: 0; }
+#sidebar > .sidebar-links { order: 1; }
+#sidebar > .buffer { order: 2; flex: 1 1 auto; }
+#sidebar > .headline-card { order: 3; }
+#sidebar > .credits { order: 4; }
+
+#sidebar > .headline-card {
+  border-top: 1px solid var(--divider) !important;
+  border-radius: 0 !important;
+  padding-top: 8px;
+}
+
+/* the edit/mode row above the links is a power-user control: keep it quiet */
+#sidebar .sidebar-links-header {
+  opacity: 0.55;
+  transform: scale(0.9);
+  transform-origin: left center;
+}
+
+#sidebar .sidebar-links-header:hover {
+  opacity: 1;
+}
+
+/* Navigation items: dot + label, active = gradient pill (Figma "My files") */
+#sidebar .sidebar-link-button,
+#sidebar .source-button {
+  position: relative;
+  min-height: 34px;
+  margin: 2px 0;
+  padding-left: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#sidebar .sidebar-link-button.active,
+#sidebar .source-button.active,
+#sidebar .router-link-active.source-button {
+  background: linear-gradient(90deg, rgb(27 107 255 / 0.85), rgb(25 211 197 / 0.85)) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 18px rgb(27 107 255 / 0.25);
+}
+
+#sidebar .sidebar-link-button.active *,
+#sidebar .source-button.active * {
+  color: #fff !important;
+}
+
+#sidebar .link-icon {
+  font-size: 18px;
+  color: var(--earthropy-ink-50);
+}
+
+/* ---------- Folder cards (Figma "Folder / …": icon on top, name, details) ---------- */
+.listing-items.normal .folder-items .listing-item {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 176px !important;
+  height: 96px !important;
+  min-height: 0;
+  padding: 14px 16px !important;
+  gap: 8px;
+}
+
+.listing-items.normal .folder-items .listing-item > div:first-child {
+  line-height: 0;
+}
+
+.listing-items.normal .folder-items .listing-item .text {
+  padding-left: 0;
+  width: 100%;
+}
+
+.listing-items.normal .folder-items .listing-item .modified {
+  display: none;
+}
+
+.listing-items.normal .folder-items .listing-item .size {
+  font-size: 11px;
+}
+
+/* gradient folder chip instead of the stock folder glyph */
+.listing-items .listing-item[data-type="directory"] .image-preview,
+.listing-items .folder-items .listing-item .image-preview {
+  display: inline-grid !important;
+  place-items: center;
+  width: 34px !important;
+  height: 26px !important;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1b6bff, #19d3c5) !important;
+  box-shadow: 0 6px 14px rgb(27 107 255 / 0.3);
+}
+
+.listing-items .listing-item[data-type="directory"] .image-preview i,
+.listing-items .folder-items .listing-item .image-preview i {
+  font-size: 16px !important;
+  color: rgb(255 255 255 / 0.9) !important;
+  background: none !important;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+
+/* file rows: small rounded tile like the Figma "Tile" */
+.listing-items.normal .file-items .listing-item .image-preview {
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+/* Section labels like the Figma ("Folders", "Files") */
+.listing-items h2 {
+  margin: 14px 8px 4px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+
+/* breadcrumbs as plain text path "My files › Photos › 2026" */
+#shelf #breadcrumbs ul {
+  align-items: center;
+  margin: 4px 0 6px;
+  background: transparent;
+}
+
+#shelf #breadcrumbs ul li {
+  display: inline-flex;
+  align-items: center;
+}
+
+#shelf #breadcrumbs ul li a,
+#shelf #breadcrumbs ul li:first-child a,
+#shelf #breadcrumbs ul li:last-child a {
+  height: auto;
+  margin: 0;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 8px;
+  clip-path: none;
+  background: transparent;
+  color: var(--earthropy-ink-60);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+#shelf #breadcrumbs ul li:last-child a {
+  color: var(--earthropy-ink);
+}
+
+#shelf #breadcrumbs ul li a:hover {
+  background: var(--earthropy-ink-08);
+  color: var(--earthropy-ink);
+}
+
+#shelf #breadcrumbs ul li a i {
+  font-size: 20px;
+}
+
+#shelf #breadcrumbs ul li + li::before {
+  content: "›";
+  padding: 0 2px;
+  color: var(--earthropy-ink-50);
+  font-size: 18px;
+}
+
+/* breathing room between the sidebar and the content */
+#main #shelf,
+#main .listing-items {
+  padding-left: 1em !important;
+  padding-right: 1em !important;
+}
+
+/* column header: quiet row instead of a heavy card */
+.listing-item-header.card {
+  margin: 6px 0.5em 0;
+  min-height: 34px;
+  box-shadow: none;
+}
+
+/* status bar text clear of the sidebar */
+#status-bar .status-content {
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+}
+
+/* the sidebar floats 12px from the edge only while it is open,
+   so a closed sidebar never peeks in (e.g. on the preview screen) */
+#sidebar.active {
+  margin-left: 12px;
+}
+
+/* ---------- Login ---------- */
+#login {
+  background: var(--earthropy-sky) !important;
+}
+
+/* A Drive app icon instead of the stock folder logo (default login icon only) */
+#login .login-icon {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 88'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%231b6bff'/%3E%3Cstop offset='1' stop-color='%2319d3c5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='88' height='88' rx='28' fill='url(%23g)'/%3E%3Cpath d='M30 62 44 26 58 62M35 50h18' fill='none' stroke='%23fff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  border-radius: 28px;
+  box-shadow: 0 10px 24px rgb(27 107 255 / 0.35);
+  background: none;
+}
+
+#login .login-brand h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--earthropy-ink);
+}
