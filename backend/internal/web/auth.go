@@ -131,6 +131,17 @@ func getOrCreateAuthenticatedUser(username string, loginMethod users.LoginMethod
 			}
 		}
 	}
+	// EARTHROPY: with password login turned off, the doorman (dashboard sign-in) is the
+	// only way in, so an older password account with the same name is taken over by it
+	// and keeps its files, shares and settings.
+	if loginMethod == users.LoginMethodProxy && userValue.LoginMethod == users.LoginMethodPassword &&
+		!settings.Config.Auth.Methods.PasswordAuth.Enabled {
+		userValue.LoginMethod = users.LoginMethodProxy
+		if err := state.UpdateUser(&userValue, "", "loginMethod"); err != nil {
+			return nil, err
+		}
+		logger.Infof("user %q now signs in through the EARTHROPY dashboard", username)
+	}
 	// Verify login method matches
 	if userValue.LoginMethod != loginMethod {
 		logger.Debugf("login rejected: user %q attempted %s login but account loginMethod is %q", username, loginMethod, userValue.LoginMethod)

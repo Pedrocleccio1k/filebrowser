@@ -528,6 +528,12 @@ func withUserHelper(fn handleFunc) handleFunc {
 			logger.Errorf("Failed to get user from token: %v", err)
 			return http.StatusUnauthorized, fmt.Errorf("token is invalid or revoked")
 		}
+		// EARTHROPY: the doorman's header always wins. If someone else signed in on the
+		// dashboard in this browser, drop the old session and switch to that user.
+		if isProxyUser && userValue.Username != proxyUser {
+			data.Token = ""
+			return getProxyUser(w, r, data, fn, proxyUser)
+		}
 		data.User = userValue
 
 		// Plant the session cookie only when the request didn't already carry
