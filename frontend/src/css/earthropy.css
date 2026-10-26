@@ -41,6 +41,7 @@ html:root {
   --earthropy-ink-08: rgb(11 27 63 / 0.06);
   --earthropy-glass: rgb(255 255 255 / 0.55);
   --earthropy-glass-strong: rgb(255 255 255 / 0.85);
+  --earthropy-popup: #f5f8ff;
   --earthropy-glass-border: rgb(255 255 255 / 0.8);
   --earthropy-row: rgb(255 255 255 / 0.45);
   --earthropy-shadow: 0 12px 32px rgb(13 38 102 / 0.1);
@@ -84,6 +85,7 @@ html:root.dark-mode,
   --earthropy-ink-08: rgb(255 255 255 / 0.06);
   --earthropy-glass: rgb(255 255 255 / 0.06);
   --earthropy-glass-strong: rgb(18 26 52 / 0.94);
+  --earthropy-popup: #141c38;
   --earthropy-glass-border: rgb(255 255 255 / 0.12);
   --earthropy-row: rgb(255 255 255 / 0.04);
   --earthropy-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
@@ -243,7 +245,107 @@ header .action:not(.nav-toggle-button) {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 20px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 6px;
+  border: none;
+  border-radius: 16px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.earthropy-brand__app:hover,
+.earthropy-brand__app[aria-expanded="true"] {
+  background: var(--earthropy-ink-08);
+}
+
+.earthropy-brand__app:focus-visible {
+  outline: 2px solid var(--earthropy-accent-from);
+  outline-offset: 2px;
+}
+
+.earthropy-brand__text {
+  flex: 1;
+}
+
+.earthropy-brand__chevron {
+  color: var(--earthropy-ink-50);
+  font-size: 12px;
+  padding-right: 4px;
+}
+
+/* ---------- App switcher popup ---------- */
+.earthropy-brand {
+  position: relative;
+}
+
+.earthropy-switcher {
+  position: absolute;
+  z-index: 51;
+  top: 118px;
+  left: 4px;
+  right: 4px;
+  padding: 14px;
+  border-radius: 20px;
+  background: var(--earthropy-popup);
+  border: 1px solid var(--earthropy-glass-border);
+  box-shadow: 0 20px 48px rgb(13 38 102 / 0.22);
+}
+
+.earthropy-switcher__title {
+  margin: 2px 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--earthropy-ink-60);
+}
+
+.earthropy-switcher__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.earthropy-switcher__app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 2px;
+  border-radius: 14px;
+  color: var(--earthropy-ink-80);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+}
+
+.earthropy-switcher__app:hover,
+.earthropy-switcher__app[aria-current="page"] {
+  background: var(--earthropy-ink-08);
+}
+
+.earthropy-switcher__app--off {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.earthropy-switcher__app--off:hover {
+  background: transparent;
+}
+
+.earthropy-switcher__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  color: #fff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .earthropy-brand__icon {
